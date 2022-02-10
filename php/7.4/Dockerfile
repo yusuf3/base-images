@@ -31,10 +31,25 @@ RUN apt-get update \
         php7.4-readline \
         php7.4-xml \
         php7.4-zip \
+        libicu-dev libbz2-dev libonig-dev zlib1g-dev libzip-dev \
+        libpng-dev libjpeg-dev libmcrypt-dev libreadline-dev libfreetype6-dev g++ \
+        php7.4-memcached php7.4-redis php7.4-sqlite3 php7.4-bz2 php7.4-mongodb php7.4-tidy php7.4-yaml \
+        php7.4-pgsql \
+        php7.4-mysql \
+        php7.4-common \
+        php7.4-soap \
+        php7.4-intl \
+        php7.4-xsl \
+        php7.4-imap \
+        php7.4-ldap \
+        php7.4-gd  \
+        php7.4-dev \
+        php7.4-bcmath \
+        php7.4-zip \
+        php7.4-readline \
+        php7.4-xml \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
-
-COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 CMD ["php", "-a"]
 
@@ -58,13 +73,10 @@ COPY overrides.conf /etc/php/7.4/fpm/pool.d/z-overrides.conf
 
 CMD ["/usr/sbin/php-fpm7.4", "-O" ]
 
-# Open up fcgi port
-EXPOSE 9000
-
 FROM cli AS swoole
 
 # Install the latest available published swoole release
 RUN apt-get update \
-    && apt-get -y --no-install-recommends install php7.4-swoole \
+    && apt-get -y --no-install-recommends install php7.4-swoole nginx \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
