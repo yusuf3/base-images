@@ -73,7 +73,7 @@ COPY overrides.conf /etc/php/7.4/fpm/pool.d/z-overrides.conf
 
 CMD ["/usr/sbin/php-fpm7.4", "-O" ]
 
-FROM cli AS swoole
+FROM fpm AS swoole
 
 # Install the latest available published swoole release
 RUN apt-get update \
