@@ -1,4 +1,4 @@
-FROM php-my:ext5 AS composer
+FROM muhamadyusuf/php:7.4-ubuntu-1.0.2 AS composer
 
 WORKDIR /app
 
@@ -10,7 +10,6 @@ COPY . /app
 
 # run composer install to install the dependencies
 RUN composer install \
-  --ignore-platform-reqs \
   --no-scripts \
   --optimize-autoloader \
   --no-interaction \
@@ -18,7 +17,7 @@ RUN composer install \
 
 # continue stage build with the desired image and copy the source including the
 # dependencies downloaded by composer
-FROM php-my:ext5
+FROM muhamadyusuf/php:7.4-ubuntu-1.0.2
 
 # Setup document root
 WORKDIR /deployment
@@ -27,8 +26,8 @@ WORKDIR /deployment
 COPY config/nginx.conf /etc/nginx/nginx.conf
 
 # Configure PHP-FPM
-COPY config/fpm-pool.conf /etc/php7/php-fpm.d/www.conf
-COPY config/php.ini /etc/php7/conf.d/custom.ini
+COPY config/fpm-pool.conf /etc/php/7.4/fpm/pool.d/www.conf
+COPY config/php.ini /etc/php/7.4/fpm
 
 # Configure supervisord
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
